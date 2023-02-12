@@ -13,7 +13,7 @@ bool replayButton(sf::Vector2i mousePos, bool mousePressed);
 int main()
 {
 	srand(time(NULL));
-	sf::Vector2u app_size(1280, 660);
+	sf::Vector2u app_size(1280, 700);
 	sf::RenderWindow app(sf::VideoMode(app_size.x, app_size.y + 40), "Mini Golf", sf::Style::Close);
 	sf::Vector2i mousepos;
 	bool mousePressed = false;

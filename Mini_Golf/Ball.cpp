@@ -47,12 +47,14 @@ void Ball::init(sf::Vector2u app_size)
 	holeS.setBuffer(holebuff);
 }
 
+//Inisializing pointer position
 void Ball::setInitialPos(sf::Vector2i pos)
 {
 	initialMousePos.x = pos.x;
 	initialMousePos.y = pos.y;
 }
 
+// set lunch velocity
 void Ball::setLaunchVelocity(sf::Vector2i mouse)
 {
 	stroked = false;
@@ -68,9 +70,10 @@ void Ball::setLaunchVelocity(sf::Vector2i mouse)
 	float angle = atan2(normalised.y , normalised.x);
 	angle = angle * (180 / 3.1415);
 	pointer.setRotation(angle);
-	pointer.setPosition(ball.getPosition().x + size, ball.getPosition().y + size + 4);//+4 for adjusments
+	pointer.setPosition(ball.getPosition().x + size, ball.getPosition().y + size + 4);//+4 for adjusments according window
 
-	if (abs_velocity > 420) {
+	if (abs_velocity > 420) // checking the poweer meter power to change the power line
+	{
 		launchVelocity = copy_velocity;
 		return;
 	}
@@ -78,17 +81,20 @@ void Ball::setLaunchVelocity(sf::Vector2i mouse)
 	meter_fg.setScale(abs_velocity/200, 1.2);
 }
 
+// initialize Ball velocity
 void Ball::setVelocity(float vx, float vy)
 {
 	velocity.x = vx;
 	velocity.y = vy;
 }
 
+
 bool Ball::mouseOnBall(sf::Vector2i mouse)
 {
 	return (mouse.x > ball.getPosition().x && mouse.x < ball.getPosition().x + size &&
 		mouse.y > ball.getPosition().y && mouse.y < ball.getPosition().y + size);
 }
+
 
 bool Ball::ballNotMoving(void)
 {
@@ -97,13 +103,15 @@ bool Ball::ballNotMoving(void)
 	return false;
 }
 
+	
 void Ball::update(float dt, sf::Vector2u app_size, bool *init_set, sf::Sprite &hole, bool *level_complete, std::vector<sf::Sprite> blocks, int &currStrokes)
 {
-	if (!stroked) {	//initially true
+	if (!stroked) //initially true before launched the ball
+	{	
 		swing.play();
 		launched = false;
 		currStrokes--;
-		if (currStrokes == 0)
+		if (currStrokes == 0)////////
 			trigger = true;
 		setVelocity(launchVelocity.x, launchVelocity.y);
 		launchVelocity = sf::Vector2f(0.f, 0.f);
@@ -113,14 +121,16 @@ void Ball::update(float dt, sf::Vector2u app_size, bool *init_set, sf::Sprite &h
 	}
 
 	//if ball is launched the update ball velocity
-	float x = ball.getPosition().x + velocity.x*dt*10;
-	float y = ball.getPosition().y + velocity.y*dt*10;
+	float x = ball.getPosition().x + velocity.x*dt*12;
+	float y = ball.getPosition().y + velocity.y*dt*12;
 
 	//if ball collides with hole
 	if (x >= hole.getPosition().x && x <= hole.getPosition().x + hole.getGlobalBounds().width &&
-		y >= hole.getPosition().y && y <= hole.getPosition().y + hole.getGlobalBounds().height) {
+		y >= hole.getPosition().y && y <= hole.getPosition().y + hole.getGlobalBounds().height) 
+	{
 		holeS.play();
-		if (!*level_complete) {
+		if (!*level_complete) 
+		{
 			velocity = sf::Vector2f(0.f, 0.f);
 			ball.setPosition(100, app_size.y / 2);
 			*level_complete = true;
@@ -129,35 +139,42 @@ void Ball::update(float dt, sf::Vector2u app_size, bool *init_set, sf::Sprite &h
 	}
 		
 	//collision with walls
-	if (x >= app_size.x - size*2) {
+	if (x >= app_size.x - size*2) 
+	{
 		velocity.x = -velocity.x;
 		x = app_size.x - size*2;
 		dirX = -1;
-	} else if (x <= 0) {
+	} 
+	else if (x <= 0) 
+	{
 		velocity.x = -velocity.x;
 		x = 0;
 		dirX = 1;
 	}
-	if (y >= app_size.y - size*2) {
+	if (y >= app_size.y - size*2) 
+	{
 		velocity.y = -velocity.y;
 		y = app_size.y - size*2;
 		dirY = -1;
-	} else if (y <= 0) {
+	} 
+	else if (y <= 0) 
+	{
 		velocity.y = -velocity.y;
 		y = 0;
 		dirY = 1;
 	}
 
 	//collision with blocks or tiles
-	for (int i = 0; i < blocks.size(); i++) {
-		float nx = x + velocity.x * dt * 10;
+	for (int i = 0; i < blocks.size(); i++) 
+	{
+		float nx = x + velocity.x * dt * 12;
 		if (nx + size * 2 >= blocks[i].getPosition().x && nx <= blocks[i].getPosition().x + blocks[i].getGlobalBounds().width &
 			y + size * 2 >= blocks[i].getPosition().y && y <= blocks[i].getPosition().y + blocks[i].getGlobalBounds().height) {
 			setVelocity(velocity.x*-1, velocity.y);
 			dirX *= -1;
 		}
 			
-		float ny = y + velocity.y * dt * 10;
+		float ny = y + velocity.y * dt * 12;
 		if (x + size * 2 >= blocks[i].getPosition().x && x <= blocks[i].getPosition().x + blocks[i].getGlobalBounds().width &
 			ny + size * 2 >= blocks[i].getPosition().y && ny <= blocks[i].getPosition().y + blocks[i].getGlobalBounds().height) {
 			setVelocity(velocity.x, velocity.y*-1);

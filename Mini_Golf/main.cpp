@@ -1,4 +1,4 @@
-// hello
+
 #include <sstream>
 #include "Ball.hpp"
 #include "Ui.hpp"
@@ -31,8 +31,8 @@ int main()
 	hole.setScale(3, 3);
 
 
-	bool init_set = true, levelComplete = false, infoOn = false; // change info into false to hide the info of the game
-	int currentLevel = 1, maxStrokes = 1, currentStrokes = maxStrokes; // akahne kicu change krte hobe
+	bool init_set = true, levelComplete = false, infoOn = true; ////////////////////// change info into false to hide the info of the game
+	int currentLevel = 1, maxStrokes = 1, currentStrokes = maxStrokes; /////////////////// akahne kicu change krte hobe
 
 	Ball golfBall;
 	golfBall.init(app_size);
@@ -40,6 +40,7 @@ int main()
 	//level
 	loadTiles();
 	loadLevel(currentLevel, hole, currentStrokes, golfBall, app_size, maxStrokes);
+	
 	//ui
 	loadUi(app_size);
 
@@ -61,7 +62,7 @@ int main()
 				mousePressed = true;
 				if (start_state) {
 					start_state = false;
-					currentStrokes = maxStrokes + 1;
+					currentStrokes = maxStrokes + 1;  ///////// should changed
 				}
 				break;
 			case sf::Event::MouseButtonReleased:
@@ -70,7 +71,7 @@ int main()
 			case sf::Event::KeyPressed:
 				if(e.key.code == sf::Keyboard::R)
 					golfBall.ball.setPosition(200, app_size.y / 2);
-				if (e.key.code == sf::Keyboard::Enter ) // click enter or to clear the commannd text
+				if (e.key.code == sf::Keyboard::Enter ) // click enter  to clear the commannd text
 					if (infoOn) {
 						infoOn = false;
 						infoSound.play();
@@ -87,7 +88,8 @@ int main()
 			mousepos = sf::Mouse::getPosition(app);
 			golfBall.ball_sprite.setPosition(golfBall.ball.getPosition());
 
-			if (replayButton(mousepos, mousePressed)) {
+			if (replayButton(mousepos, mousePressed)) 
+			{
 				golfBall.setVelocity(0.f, 0.f);
 				mousePressed = false;
 				loadLevel(currentLevel, hole, currentStrokes, golfBall, app_size, maxStrokes);
@@ -99,10 +101,11 @@ int main()
 			level << currentLevel;
 			currLevel.setString(level.str());
 
-			if (levelComplete) {
+			if (levelComplete) 
+			{
 				blocks.clear();	//clearing the tiles
 				levelEndTimer += dt;
-				if (levelEndTimer > 4)
+				if (levelEndTimer > 2)
 				{
 					levelComplete = false;
 					levelEndTimer = 0;
@@ -111,22 +114,26 @@ int main()
 					loadLevel(currentLevel, hole, currentStrokes, golfBall, app_size, maxStrokes);
 				}
 			}
-			else if(golfBall.trigger && golfBall.ballNotMoving()){
+			else if(golfBall.trigger && golfBall.ballNotMoving())
+			{
 				blocks.clear();	//clearing the tiles 
 				levelEndTimer += dt;
-				if (levelEndTimer > 4) {
+				if (levelEndTimer > 2) {
 					levelEndTimer = 0;
 					golfBall.ball_sprite.setScale(2, 2);
 					loadLevel(currentLevel, hole, currentStrokes, golfBall, app_size, maxStrokes);
 				}
 			}
-			else if (!levelComplete) {
-				if (mousePressed && init_set) {	//setting initial mouse pos
+			else if (!levelComplete) 
+			{
+				if (mousePressed && init_set) 
+				{	//setting initial mouse pos
 					golfBall.charge.play();
 					golfBall.setInitialPos(mousepos);
 					init_set = false;
 				}
-				else if (mousePressed && golfBall.ballNotMoving()) {
+				else if (mousePressed && golfBall.ballNotMoving()) 
+				{
 					golfBall.setLaunchVelocity(mousepos);
 				}
 				else	//launch the ball and collision detections
@@ -164,73 +171,101 @@ void loadLevel(int &currentLevel, sf::Sprite &hole, int &currentStrokes, Ball &b
 	currentStrokes = maxStrokes;
 	hole.setPosition(1000, 330);
 	b.ball.setPosition(200, app_size.y / 2);
+
+	// level wise tiles position
 	switch (currentLevel)
 	{
 	case 1:
 		hole.setPosition(1000, 330);
 		break;
+
 	case 2:
+		//big tiles
 		i = rand() % 2;
 		tiles64[i].setPosition(640 - 32, 350 - 32);
 		blocks.push_back(tiles64[i]);
 		break;
+
 	case 3:
+		//big tiles
 		i = rand() % 2;
-		tiles64[i].setPosition(app_size.x / 2 - 32, 0);
+		tiles64[i].setPosition(app_size.x / 2 - 82, 50);
 		blocks.push_back(tiles64[i]);
-		tiles64[i].setPosition(app_size.x / 2 - 32, app_size.y - 64);
+		tiles64[i].setPosition(app_size.x / 2 + 18, app_size.y - 114);
 		blocks.push_back(tiles64[i]);
+		
+		//small tiles
 		i = rand() % 2;
 		tiles32[i].setPosition(app_size.x / 2 - 16, app_size.y / 2 - 16);
 		blocks.push_back(tiles32[i]);
 		break;
+
 	case 4:
-		hole.setPosition(950, 330);
+		maxStrokes = 2;
+		currentStrokes = maxStrokes;
+		hole.setPosition(1000, 330);
+		
+		//big tiles
 		i = rand() % 2;
-		tiles64[i].setPosition(405 - 32, 80);
+		tiles64[i].setPosition(app_size.x - 500, 50);
 		blocks.push_back(tiles64[i]);
 		tiles64[i].setPosition(app_size.x - 500, app_size.y - (80 + 40));
 		blocks.push_back(tiles64[i]);
 		tiles64[i].setPosition(app_size.x - 345, app_size.y/2 - 90);
 		blocks.push_back(tiles64[i]);
+		
+		//small tiles
 		i = rand() % 2;
-		tiles32[i].setPosition(500 - 16, app_size.y / 2 - 10);
+		tiles32[i].setPosition(500 - 16, app_size.y / 2 - 30);
 		blocks.push_back(tiles32[i]);
-		tiles32[i].setPosition(app_size.x - 500 - 16, app_size.y / 2 - 10);
+		tiles32[i].setPosition(app_size.x - 500 - 16, app_size.y / 2 + 10);
 		blocks.push_back(tiles32[i]);
 		break;
+
 	case 5:
-		hole.setPosition(app_size.x / 2 + 200 - 32, app_size.y / 2 - 32 - 90);
+		maxStrokes = 2;
+		currentStrokes = maxStrokes;
+		hole.setPosition(1000,330);
+		
+		//big tiles
 		i = rand() % 2;
-		tiles64[i].setPosition(app_size.x / 2 + 100 - 32, app_size.y / 2 - 32 - 100);
+		tiles64[i].setPosition(app_size.x / 2 + 100 - 32+100, app_size.y / 2 - 32 - 500);
 		blocks.push_back(tiles64[i]);
-		tiles64[i].setPosition(app_size.x / 2 - 200 - 32, 80);
+		tiles64[i].setPosition(app_size.x / 2 - 200 - 32, 630);
 		blocks.push_back(tiles64[i]);
 
+		//big tiles 2nd part
 		i = rand() % 2;
 		tiles64[i].setPosition(app_size.x / 2 - 200 - 32, 5);
 		blocks.push_back(tiles64[i]);
-		tiles64[i].setPosition(app_size.x / 2 + 180 - 32, app_size.y / 2 - 32 - 200);
+		tiles64[i].setPosition(app_size.x / 2 + 180 - 32, app_size.y / 2 - 32 - 500);
 		blocks.push_back(tiles64[i]);
 		tiles64[i].setPosition(app_size.x / 2 + 180 - 32, app_size.y / 2 - 32);
 		blocks.push_back(tiles64[i]);
+		
+		//small tiles
 		i = rand() % 2;
-		tiles32[i].setPosition(200, app_size.y / 2 + 50);
+		tiles32[i].setPosition(200, app_size.y / 2 + 60);
 		blocks.push_back(tiles32[i]);
-		tiles32[i].setPosition(240, app_size.y / 2 + 50);
+		tiles32[i].setPosition(200, app_size.y / 2 - 60);
 		blocks.push_back(tiles32[i]);
-		tiles32[i].setPosition(280, app_size.y / 2 + 50);
+		tiles32[i].setPosition(480, app_size.y / 2 + 0);
 		blocks.push_back(tiles32[i]);
+		
+		//big tiles 3rd part
 		i = rand() % 2;
 		tiles64[i].setPosition(app_size.x - 64, 0);
 		blocks.push_back(tiles64[i]);
 		tiles64[i].setPosition(app_size.x - 64, app_size.y - 64);
 		blocks.push_back(tiles64[i]);
 		break;
+
 	case 6:
-		maxStrokes = 2;
+		maxStrokes = 3;
 		currentStrokes = maxStrokes;
-		hole.setPosition(1000, 320);
+		hole.setPosition(1000, 330);
+		
+		//big tiles
 		i = rand() % 2;
 		tiles64[i].setPosition(app_size.x / 2 - 32, 90);
 		blocks.push_back(tiles64[i]);
@@ -247,6 +282,7 @@ void loadLevel(int &currentLevel, sf::Sprite &hole, int &currentStrokes, Ball &b
 		tiles64[i].setPosition(app_size.x / 2 - 32, 570);
 		blocks.push_back(tiles64[i]);
 
+		//small tiles
 		i = rand() % 2;
 		tiles32[i].setPosition(160, app_size.y / 2 - 50);
 		blocks.push_back(tiles32[i]);
@@ -255,6 +291,7 @@ void loadLevel(int &currentLevel, sf::Sprite &hole, int &currentStrokes, Ball &b
 		tiles32[i].setPosition(240, app_size.y / 2 - 50);
 		blocks.push_back(tiles32[i]);
 
+		//big tiles second layer
 		i = rand() % 2;
 		tiles64[i].setPosition(app_size.x - 460 - 32, 10);
 		blocks.push_back(tiles64[i]);
@@ -265,6 +302,7 @@ void loadLevel(int &currentLevel, sf::Sprite &hole, int &currentStrokes, Ball &b
 		tiles64[i].setPosition(app_size.x - 460 - 32, 220);
 		blocks.push_back(tiles64[i]);
 
+		//big tiles third layer
 		i = rand() % 2;
 		tiles64[i].setPosition(app_size.x - 460 - 32, app_size.y - 70);
 		blocks.push_back(tiles64[i]);
@@ -277,9 +315,11 @@ void loadLevel(int &currentLevel, sf::Sprite &hole, int &currentStrokes, Ball &b
 
 		break;
 	case 7:
-		maxStrokes = 2;
+		maxStrokes = 4;
 		currentStrokes = maxStrokes;
 		b.ball.setPosition(190, app_size.y / 2);
+		
+		//small tiles, v shape part 1
 		i = rand() % 2;
 		tiles32[i].setPosition(140, app_size.y / 2 - 30);
 		blocks.push_back(tiles32[i]);
@@ -293,6 +333,8 @@ void loadLevel(int &currentLevel, sf::Sprite &hole, int &currentStrokes, Ball &b
 		blocks.push_back(tiles32[i]);
 		tiles32[i].setPosition(290, app_size.y / 2 - 330);
 		blocks.push_back(tiles32[i]);
+		
+		//small tiles , v shape part 2
 		i = rand() % 2;
 		tiles32[i].setPosition(250, app_size.y / 2 + 10);
 		blocks.push_back(tiles32[i]);
@@ -305,6 +347,7 @@ void loadLevel(int &currentLevel, sf::Sprite &hole, int &currentStrokes, Ball &b
 		tiles32[i].setPosition(370, app_size.y / 2 - 230);
 		blocks.push_back(tiles32[i]);
 
+		//small tiles part 3
 		i = rand() % 2;
 		tiles32[i].setPosition(450, 0);
 		blocks.push_back(tiles32[i]);
@@ -318,6 +361,8 @@ void loadLevel(int &currentLevel, sf::Sprite &hole, int &currentStrokes, Ball &b
 		blocks.push_back(tiles32[i]);
 		tiles32[i].setPosition(600, 300);
 		blocks.push_back(tiles32[i]);
+		
+		//small tiles part 4
 		i = rand() % 2;
 		tiles32[i].setPosition(410, 160);
 		blocks.push_back(tiles32[i]);
@@ -328,6 +373,7 @@ void loadLevel(int &currentLevel, sf::Sprite &hole, int &currentStrokes, Ball &b
 		tiles32[i].setPosition(500, 340);
 		blocks.push_back(tiles32[i]);
 
+		//big tiles
 		i = rand() % 2;
 		tiles64[i].setPosition(app_size.x / 2 - 270, app_size.y / 2 + 80);
 		blocks.push_back(tiles64[i]);
@@ -336,6 +382,7 @@ void loadLevel(int &currentLevel, sf::Sprite &hole, int &currentStrokes, Ball &b
 		tiles64[i].setPosition(app_size.x / 2 - 270, app_size.y / 2 + 260);
 		blocks.push_back(tiles64[i]);
 
+		//big tiles 
 		i = rand() % 2;
 		tiles64[i].setPosition(app_size.x / 2 + 150, app_size.y / 2 + 90);
 		blocks.push_back(tiles64[i]);
@@ -348,6 +395,7 @@ void loadLevel(int &currentLevel, sf::Sprite &hole, int &currentStrokes, Ball &b
 		tiles64[i].setPosition(app_size.x / 2 + 500, app_size.y / 2 + 90);
 		blocks.push_back(tiles64[i]);
 		break;
+
 	default:
 		finished_state = true;
 		break;

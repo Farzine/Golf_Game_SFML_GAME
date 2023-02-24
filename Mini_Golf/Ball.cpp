@@ -2,37 +2,47 @@
 
 void Ball::init(sf::Vector2u app_size)
 {
+	//PowerMeter Background
 	meter_bg_tex.loadFromFile("Resources/sprites/powermeter_bg.png");
 	meter_bg.setTexture(meter_bg_tex);
 	meter_bg.setScale(2, 1.2);
 	meter_bg.setPosition(180, app_size.y + 12);
-
+	
+	//Power meter's power indigator line
 	meter_fg_tex.loadFromFile("Resources/sprites/powermeter_fg.png");
 	meter_fg.setTexture(meter_fg_tex);
 	meter_fg.setScale(2, 1.2);
 	meter_fg.setPosition(188, app_size.y + 16);
 
+	//Power meter png background
 	meter_ov_tex.loadFromFile("Resources/sprites/powermeter_overlay.png");
 	meter_ov.setTexture(meter_ov_tex);
 	meter_ov.setScale(2, 1.2);
 	meter_ov.setPosition(180, app_size.y + 12);
 
+	// golf Ball
 	ball_tex.loadFromFile("Resources/sprites/ball.png");
 	ball_sprite.setTexture(ball_tex);
 	ball_sprite.setScale(2, 2);
 	ball.setRadius(size);
 	ball.setFillColor(sf::Color::White);
 	ball.setPosition(200, app_size.y / 2);
-
+	
+	//Hit pointer
 	pointer_tex.loadFromFile("Resources/sprites/point.png");
 	pointer.setTexture(pointer_tex);
 	pointer.setScale(2, 1.2);
 	pointer.setOrigin(pointer.getGlobalBounds().left, pointer.getGlobalBounds().height / 2);
-
+	
+	//Ball throughing sound
 	chargebuff.loadFromFile("Resources/Sounds/charge.wav");
 	charge.setBuffer(chargebuff);
+
+	//Ball swing sound
 	swingbuff.loadFromFile("Resources/Sounds/swing.wav");
 	swing.setBuffer(swingbuff);
+
+	//Ball dropped sound in the hole
 	holebuff.loadFromFile("Resources/Sounds/hole.wav");
 	holeS.setBuffer(holebuff);
 }
@@ -49,7 +59,7 @@ void Ball::setLaunchVelocity(sf::Vector2i mouse)
 	trigger = false;
 	launchVelocity.x = (initialMousePos.x - mouse.x)*2;
 	launchVelocity.y = (initialMousePos.y - mouse.y)*2;
-	abs_velocity = sqrt(pow(launchVelocity.x, 2) + pow(launchVelocity.y, 2));
+	abs_velocity = sqrt(pow(launchVelocity.x, 2) + pow(launchVelocity.y, 2)); // rms velocity
 
 	dirX = launchVelocity.x / abs(launchVelocity.x);
 	dirY = launchVelocity.y / abs(launchVelocity.y);

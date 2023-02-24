@@ -2,6 +2,7 @@
 #include "Ball.hpp"
 #include "Ui.hpp"
 
+// initializing obstacle
 sf::Sprite tiles32[2], tiles64[2];
 sf::Texture tiles[4];
 std::vector<sf::Sprite> blocks;
@@ -21,13 +22,16 @@ int main()
 	sf::Time time;
 	float dt = 0, levelEndTimer = 0;
 
+	//Initialization and work of hole image
 	sf::Sprite hole;
 	sf::Texture hole_tex;
 	hole_tex.loadFromFile("Resources/sprites/hole.png");
 	hole.setTexture(hole_tex);
 	hole.setScale(3, 3);
-	bool init_set = true, levelComplete = false, infoOn = true;
-	int currentLevel = 1, maxStrokes = 1, currentStrokes = maxStrokes;
+
+
+	bool init_set = true, levelComplete = false, infoOn = false; // change info into false to hide the info of the game
+	int currentLevel = 1, maxStrokes = 1, currentStrokes = maxStrokes; // akahne kicu change krte hobe
 
 	Ball golfBall;
 	golfBall.init(app_size);
@@ -65,7 +69,7 @@ int main()
 			case sf::Event::KeyPressed:
 				if(e.key.code == sf::Keyboard::R)
 					golfBall.ball.setPosition(200, app_size.y / 2);
-				if (e.key.code == sf::Keyboard::Enter)
+				if (e.key.code == sf::Keyboard::Enter ) // click enter or to clear the commannd text
 					if (infoOn) {
 						infoOn = false;
 						infoSound.play();
@@ -76,7 +80,7 @@ int main()
 			}
 		}
 
-		////////////////////////
+		//////////////////////// Level Task ///////////////////////////
 		if (!start_state && !finished_state) 
 		{
 			mousepos = sf::Mouse::getPosition(app);

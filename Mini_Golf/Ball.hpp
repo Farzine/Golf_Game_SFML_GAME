@@ -5,6 +5,8 @@
 #include <vector>
 #include <math.h>
 
+// All initialized variables and function
+
 class Ball
 {
 private:

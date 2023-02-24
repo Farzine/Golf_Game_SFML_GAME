@@ -1,6 +1,8 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 
+//All initialized variables and function for graphis and UI
+
 sf::Sprite bg, ui_bg, title, finished, replay;
 sf::Texture bg_tex, ui_bg_tex, title_tex, finished_tex, replay_tex;
 

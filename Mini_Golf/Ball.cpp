@@ -169,14 +169,16 @@ void Ball::update(float dt, sf::Vector2u app_size, bool *init_set, sf::Sprite &h
 	{
 		float nx = x + velocity.x * dt * 12;
 		if (nx + size * 2 >= blocks[i].getPosition().x && nx <= blocks[i].getPosition().x + blocks[i].getGlobalBounds().width &
-			y + size * 2 >= blocks[i].getPosition().y && y <= blocks[i].getPosition().y + blocks[i].getGlobalBounds().height) {
+			y + size * 2 >= blocks[i].getPosition().y && y <= blocks[i].getPosition().y + blocks[i].getGlobalBounds().height) 
+		{
 			setVelocity(velocity.x*-1, velocity.y);
 			dirX *= -1;
 		}
 			
 		float ny = y + velocity.y * dt * 12;
 		if (x + size * 2 >= blocks[i].getPosition().x && x <= blocks[i].getPosition().x + blocks[i].getGlobalBounds().width &
-			ny + size * 2 >= blocks[i].getPosition().y && ny <= blocks[i].getPosition().y + blocks[i].getGlobalBounds().height) {
+			ny + size * 2 >= blocks[i].getPosition().y && ny <= blocks[i].getPosition().y + blocks[i].getGlobalBounds().height) 
+		{
 			setVelocity(velocity.x, velocity.y*-1);
 			dirY *= -1;
 		}
@@ -186,7 +188,8 @@ void Ball::update(float dt, sf::Vector2u app_size, bool *init_set, sf::Sprite &h
 	velocity.x = abs(velocity.x) * dirX * dt * 58;
 	velocity.y = abs(velocity.y) * dirY * dt * 58;
 	
-	if (abs(int(velocity.x)) == 0 && abs(int(velocity.y)) == 0) {
+	if (abs(int(velocity.x)) == 0 && abs(int(velocity.y)) == 0) 
+	{
 		velocity = sf::Vector2f(0.f, 0.f);
 		*init_set = true;
 	}

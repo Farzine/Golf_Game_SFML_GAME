@@ -31,17 +31,17 @@ int main()
 	hole.setScale(3, 3);
 
 
-	bool init_set = true, levelComplete = false, infoOn = true; ////////////////////// change info into false to hide the info of the game
-	int currentLevel = 1, maxStrokes = 1, currentStrokes = maxStrokes; /////////////////// akahne kicu change krte hobe
+	bool init_set = true, levelComplete = false, infoOn = true; // change info into false to hide the info of the game
+	int currentLevel = 1, maxStrokes = 1, currentStrokes = maxStrokes; 
 
 	Ball golfBall;
 	golfBall.init(app_size);
 
-	//level
+	//Level
 	loadTiles();
 	loadLevel(currentLevel, hole, currentStrokes, golfBall, app_size, maxStrokes);
 	
-	//ui
+	//Ui
 	loadUi(app_size);
 
 	app.setVerticalSyncEnabled(true);
@@ -60,9 +60,10 @@ int main()
 				app.close();
 			case sf::Event::MouseButtonPressed:
 				mousePressed = true;
-				if (start_state) {
+				if (start_state) 
+				{
 					start_state = false;
-					currentStrokes = maxStrokes + 1;  ///////// should changed
+					currentStrokes = maxStrokes + 1;  
 				}
 				break;
 			case sf::Event::MouseButtonReleased:
@@ -72,7 +73,8 @@ int main()
 				if(e.key.code == sf::Keyboard::R)
 					golfBall.ball.setPosition(200, app_size.y / 2);
 				if (e.key.code == sf::Keyboard::Enter ) // click enter  to clear the commannd text
-					if (infoOn) {
+					if (infoOn) 
+					{
 						infoOn = false;
 						infoSound.play();
 					}
@@ -126,8 +128,8 @@ int main()
 			}
 			else if (!levelComplete) 
 			{
-				if (mousePressed && init_set) 
-				{	//setting initial mouse pos
+				if (mousePressed && init_set) //setting initial mouse pos
+				{	
 					golfBall.charge.play();
 					golfBall.setInitialPos(mousepos);
 					init_set = false;
@@ -141,17 +143,19 @@ int main()
 			}
 		}
 
-		///////////////////////
+		/////////////////////////////////////////////////////////////////
 
 		app.clear();
 
-		if (!start_state && !finished_state) {
+		if (!start_state && !finished_state) 
+		{
 			app.draw(bg);
 			app.draw(ui_bg);
 			app.draw(hole);
 			for (int i = 0; i < blocks.size(); i++)
 				app.draw(blocks[i]);
-			if (infoOn) {
+			if (infoOn) 
+			{
 				for (int i = 0; i < 5; i++)
 					app.draw(info[i]);
 			}
@@ -229,7 +233,7 @@ void loadLevel(int &currentLevel, sf::Sprite &hole, int &currentStrokes, Ball &b
 		
 		//big tiles
 		i = rand() % 2;
-		tiles64[i].setPosition(app_size.x / 2 + 100 - 32+100, app_size.y / 2 - 32 - 500);
+		tiles64[i].setPosition(app_size.x / 2 + 100 - 32, app_size.y / 2 - 32 - 100);
 		blocks.push_back(tiles64[i]);
 		tiles64[i].setPosition(app_size.x / 2 - 200 - 32, 630);
 		blocks.push_back(tiles64[i]);

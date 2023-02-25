@@ -31,7 +31,7 @@ void loadUi(sf::Vector2u app_size)
 
 	title_tex.loadFromFile("Resources/sprites/title_screen.png");
 	title.setTexture(title_tex);
-	finished_tex.loadFromFile("Resources/sprites/finished.png");
+	finished_tex.loadFromFile("Resources/sprites/finish.png");
 	finished.setTexture(finished_tex);
 
 	replay_tex.loadFromFile("Resources/sprites/replay.png");

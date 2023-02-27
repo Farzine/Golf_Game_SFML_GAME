@@ -24,6 +24,7 @@ int main()
 	float dt = 0, levelEndTimer = 0;
 
 	//Initialization and work of hole image
+	//xyz
 	sf::Sprite hole;
 	sf::Texture hole_tex;
 	hole_tex.loadFromFile("Resources/sprites/hole.png");
